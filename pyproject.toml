@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sorting-algorithms"
+version = "1.0.0"
+description = "A collection of sorting algorithms implementation"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/sorting-algorithms"
+Repository = "https://github.com/yourusername/sorting-algorithms"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"

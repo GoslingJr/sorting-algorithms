@@ -1,25 +1,43 @@
-name: Python CI
+name: Python Tests
 
 on:
   push:
-    branches: [ Backet ]
+    branches: [ main, Backet ]
   pull_request:
-    branches: [ Backet ]
+    branches: [ main, Backet ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
     
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version: ${{ matrix.python-version }}
     
-    - name: Display Python version
-      run: python -c "import sys; print(f'Python {sys.version}')"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     
-    - name: Simple test
-      run: echo "CI is working!"
+    - name: Run tests with pytest
+      run: |
+        python -m pytest tests/ -v --tb=short
+    
+    - name: Check code style with pycodestyle
+      run: |
+        pip install pycodestyle
+        pycodestyle bucket_sort.py --max-line-length=120 || true
+    
+    - name: Run type checking (optional)
+      run: |
+        pip install mypy
+        mypy --ignore-missing-imports bucket_sort.py || true

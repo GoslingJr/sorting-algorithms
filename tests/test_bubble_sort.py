@@ -22,4 +22,5 @@ class TestBubbleSort(unittest.TestCase):
         self.assertEqual(bubble_sort([-5, -1, -3, 0, 2]), [-5, -3, -1, 0, 2])
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 
+# Коментарий, чтобы ci запустился
